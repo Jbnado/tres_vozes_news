@@ -32,14 +32,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token && !user) {
       const payload = jose.decodeJwt(token) as { id: string };
 
       fetchUser(payload.id);
+    } else if (user) {
+      return;
     } else {
       navigate("/login");
     }
-  }, []);
+  }, [user]);
 
   async function signIn({ email, password }: SignInData) {
     const res = await login(email, password);
@@ -56,6 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("token");
     setUser(null);
     await logout();
+    navigate("/login");
   }
 
   return (

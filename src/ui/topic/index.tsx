@@ -1,9 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { Table } from "antd";
-import HeaderComponent from "../components/header";
-import { getAllTopics } from "@/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Form, Input, Modal, Table } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { createTopic, deleteTopic, getAllTopics, updateTopic } from "@/api";
+import { useState } from "react";
+import { DateComponent } from "../components";
 
-export default function TopicPage() {
+export default function TopicPage(): JSX.Element {
+  const queryClient = useQueryClient();
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [topicToEdit, setTopicToEdit] = useState<string | null>(null);
+  const [form] = Form.useForm();
+
   const { isLoading, data: topics } = useQuery(
     ["topics"],
     () => getAllTopics(),
@@ -11,6 +18,48 @@ export default function TopicPage() {
       keepPreviousData: true,
     }
   );
+
+  const { mutate: createANewTopic, isLoading: isCreatingLoading } = useMutation(
+    (topic: string) => createTopic(topic),
+    {
+      onSuccess: () => {
+        setIsModalVisible(false);
+        queryClient.invalidateQueries(["topics"]);
+      },
+    }
+  );
+
+  const { mutate: updateATopic, isLoading: isUpdatingLoading } = useMutation(
+    (topic: string) => updateTopic(topicToEdit as string, topic),
+    {
+      onSuccess: () => {
+        setIsModalVisible(false);
+        setTopicToEdit(null);
+        queryClient.invalidateQueries(["topics"]);
+      },
+    }
+  );
+
+  const { mutate: deleteATopic, isLoading: isDeletingLoading } = useMutation(
+    (id: string) => deleteTopic(id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["topics"]);
+      },
+    }
+  );
+
+  const handleOk = ({ topic }: { topic: string }) => {
+    if (topicToEdit) {
+      updateATopic(topic);
+    } else {
+      createANewTopic(topic);
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    deleteATopic(id);
+  };
 
   const columns = [
     {
@@ -20,32 +69,100 @@ export default function TopicPage() {
     },
     {
       title: "Criado em",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (date: string) => <DateComponent date={date} />,
     },
     {
       title: "Atualizado em",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
+      dataIndex: "updated_at",
+      key: "updated_at",
+      render: (date: string) => <DateComponent date={date} />,
+    },
+    {
+      title: "Ações",
+      key: "action",
+      render: ({ id, topic }: { id: string; topic: string }) => (
+        <div className="flex items-center gap-3">
+          <button
+            className="text-indigo-600 hover:text-indigo-900"
+            onClick={() => {
+              setTopicToEdit(id);
+              setIsModalVisible(true);
+              form.setFieldsValue({ topic });
+            }}
+          >
+            Editar
+          </button>
+          <button
+            className="text-red-600 hover:text-red-900"
+            onClick={() => handleDelete(id)}
+          >
+            Excluir
+          </button>
+        </div>
+      ),
     },
   ];
 
   return (
     <section>
-      <HeaderComponent />
       <div className="max-w-screen-xl px-4 py-8 mx-auto sm:px-6 sm:py-12 lg:px-8">
-        <header>
+        <header className="flex justify-between mb-6">
           <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
-            Topics
+            Tópicos
           </h2>
+          <button
+            className="px-4 py-2 flex items-center gap-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            onClick={() => {
+              setTopicToEdit(null);
+              setIsModalVisible(true);
+              form.resetFields();
+            }}
+          >
+            <PlusOutlined />
+            Criar tópico
+          </button>
         </header>
 
         <Table
           rowKey="id"
           columns={columns}
           dataSource={topics}
-          loading={isLoading}
+          loading={
+            isLoading ||
+            isCreatingLoading ||
+            isUpdatingLoading ||
+            isDeletingLoading
+          }
         />
+        <Modal
+          title={topicToEdit ? "Editar tópico" : "Criar tópico"}
+          open={isModalVisible}
+          onCancel={() => setIsModalVisible(false)}
+          onOk={() => form.submit()}
+          okText={topicToEdit ? "Editar" : "Criar"}
+          cancelText="Cancelar"
+          confirmLoading={isCreatingLoading || isUpdatingLoading}
+          okButtonProps={{
+            className: "bg-indigo-600 hover:bg-indigo-700 text-white",
+            htmlType: "submit",
+          }}
+        >
+          <Form form={form} onFinish={handleOk}>
+            <Form.Item
+              name="topic"
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor, informe o tópico",
+                },
+              ]}
+            >
+              <Input placeholder="Tópico" />
+            </Form.Item>
+          </Form>
+        </Modal>
       </div>
     </section>
   );

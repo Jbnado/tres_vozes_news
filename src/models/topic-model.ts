@@ -3,10 +3,6 @@ type TopicModel = {
   topic: string;
   created_at: string;
   updated_at: string;
-}
+};
 
-type TopicCreateModel = {
-  topic: string;
-}
-
-export { type TopicModel, type TopicCreateModel }
+export { type TopicModel };
