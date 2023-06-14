@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HomePage, LoginPage, TopicPage } from "./ui";
-import { AuthProvider } from "./context/auth-context";
 import "./index.css";
 import { HeaderComponent } from "./ui/components";
+import { AuthProvider, PrivateRoute } from "./context";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,9 +22,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <AuthProvider>
           <HeaderComponent />
           <Routes>
-            <Route path="/login" Component={LoginPage} />
-            <Route path="/" Component={HomePage} />
-            <Route path="/topics" Component={TopicPage} />
+            <Route index element={<HomePage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="topics" element={<TopicPage />} />
+            </Route>
           </Routes>
         </AuthProvider>
       </Router>

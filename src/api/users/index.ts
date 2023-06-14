@@ -51,7 +51,7 @@ export async function login(
 }
 
 export async function logout(): Promise<void> {
-  return instance
+  instance
     .post("/user/logout")
     .catch(handleError)
     .then(() => {

@@ -3,7 +3,7 @@ import { Form, Input, Modal, Table } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { createTopic, deleteTopic, getAllTopics, updateTopic } from "@/api";
 import { useState } from "react";
-import { DateComponent } from "../components";
+import { ButtonComponent, DateComponent } from "../components";
 
 export default function TopicPage(): JSX.Element {
   const queryClient = useQueryClient();
@@ -112,8 +112,8 @@ export default function TopicPage(): JSX.Element {
           <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
             Tópicos
           </h2>
-          <button
-            className="px-4 py-2 flex items-center gap-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          <ButtonComponent
+            buttonType="dark"
             onClick={() => {
               setTopicToEdit(null);
               setIsModalVisible(true);
@@ -122,7 +122,7 @@ export default function TopicPage(): JSX.Element {
           >
             <PlusOutlined />
             Criar tópico
-          </button>
+          </ButtonComponent>
         </header>
 
         <Table
