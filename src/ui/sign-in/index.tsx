@@ -3,7 +3,7 @@ import { Form, Input } from "antd";
 import { AuthContext } from "@/context/auth-context";
 import { ButtonComponent } from "../components";
 
-export default function LoginPage(): JSX.Element {
+export default function SignIn(): JSX.Element {
   const { signIn } = useContext(AuthContext);
   const [form] = Form.useForm();
 
@@ -65,7 +65,7 @@ export default function LoginPage(): JSX.Element {
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
               Não tem uma conta?{" "}
-              <a className="underline" href="">
+              <a className="underline" href="/register">
                 Cadastrar
               </a>
             </p>
