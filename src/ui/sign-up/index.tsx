@@ -46,92 +46,87 @@ export default function SignUp() {
 
             <Form
               form={form}
-              className="mt-8 grid grid-cols-6 gap-6"
+              className="mx-auto mb-0 mt-8 max-w-md space-y-4"
               onFinish={handleSubmit}
             >
-              <div className="col-span-6 sm:col-span-3">
-                <Form.Item
-                  name="name"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Por favor, entre com seu nome",
-                    },
-                  ]}
-                >
-                  <Input
-                    type="text"
-                    placeholder="Nome"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </Form.Item>
-              </div>
+              <Form.Item
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: "Por favor, entre com seu nome",
+                  },
+                ]}
+              >
+                <Input
+                  type="text"
+                  placeholder="Nome"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                />
+              </Form.Item>
 
-              <div className="col-span-6 sm:col-span-3">
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Por favor, entre com seu email",
-                    },
-                  ]}
-                >
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Por favor, entre com sua senha",
-                    },
-                  ]}
-                >
-                  <Input.Password
-                    placeholder="Senha"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </Form.Item>
-              </div>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Por favor, entre com seu email",
+                  },
+                ]}
+              >
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Por favor, entre com sua senha",
+                  },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Senha"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                />
+              </Form.Item>
 
-              <div className="col-span-6 sm:col-span-3">
-                <Form.Item
-                  name="cpf"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Por favor, entre com seu CPF",
-                    },
-                  ]}
-                >
-                  <Input
-                    type="number"
-                    max="11"
-                    placeholder="CPF"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="birth_date"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Por favor, entre com sua data de nascimento",
-                    },
-                  ]}
-                >
-                  <Input
-                    type="date"
-                    placeholder="Data de nascimento"
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </Form.Item>
-              </div>
+              <Form.Item
+                name="cpf"
+                rules={[
+                  {
+                    required: true,
+                    message: "Por favor, entre com seu CPF",
+                  },
+                ]}
+              >
+                <Input
+                  type="number"
+                  maxLength={11}
+                  placeholder="CPF"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                />
+              </Form.Item>
+              <Form.Item
+                name="birth_date"
+                rules={[
+                  {
+                    required: true,
+                    message: "Por favor, entre com sua data de nascimento",
+                  },
+                ]}
+              >
+                <Input
+                  type="date"
+                  placeholder="Data de nascimento"
+                  className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                />
+              </Form.Item>
+
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                 <ButtonComponent buttonType="dark" props={{ type: "submit" }}>
                   Cadastrar

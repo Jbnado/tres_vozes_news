@@ -4,6 +4,9 @@ import { handleError, instance } from "..";
 export async function createUser(
   user: UserCreateModel
 ): Promise<UserModel | undefined> {
+  if(user.admin === undefined) {
+    user.admin = false;
+  }
   return instance
     .post("user/", user)
     .then(({ data }) => data)
