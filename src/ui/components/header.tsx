@@ -1,5 +1,7 @@
+import { ThunderboltTwoTone } from "@ant-design/icons";
 import { useAuth } from "@/hooks";
 import { ButtonComponent } from ".";
+import { Link } from "react-router-dom";
 
 export default function HeaderComponent() {
   const { user, signOut } = useAuth();
@@ -14,7 +16,13 @@ export default function HeaderComponent() {
         <div className="sm:flex sm:items-center sm:justify-between">
           {user ? (
             <>
-              <div className="text-center sm:text-left">
+              <div className="flex items-center gap-4">
+                <Link to="/">
+                  <ThunderboltTwoTone
+                    twoToneColor="rgb(79 70 229)"
+                    style={{ fontSize: 32 }}
+                  />
+                </Link>
                 <h1 className="text-2xl font-bold text-white sm:text-1xl">
                   Bem vindo, {user.name}!
                 </h1>
@@ -23,7 +31,7 @@ export default function HeaderComponent() {
               <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
                 {user.admin && (
                   <>
-                    <ButtonComponent buttonType="primary">
+                    <ButtonComponent link to="/adm-news" buttonType="primary">
                       Criar nova notícia
                     </ButtonComponent>
                     <ButtonComponent link to="/topics" buttonType="secondary">
@@ -31,6 +39,9 @@ export default function HeaderComponent() {
                     </ButtonComponent>
                   </>
                 )}
+                <ButtonComponent link to="/news" buttonType="primary">
+                  Notícias
+                </ButtonComponent>
 
                 <ButtonComponent buttonType="purple" onClick={handleLogout}>
                   Sair
@@ -39,13 +50,22 @@ export default function HeaderComponent() {
             </>
           ) : (
             <>
-              <div className="text-center sm:text-left">
+              <div className="flex items-center gap-4">
+                <Link to="/">
+                  <ThunderboltTwoTone
+                    twoToneColor="rgb(79 70 229)"
+                    style={{ fontSize: 32 }}
+                  />
+                </Link>
                 <h1 className="text-2xl font-bold text-white sm:text-3xl">
                   Três Vozes!
                 </h1>
               </div>
 
               <div className="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+                <ButtonComponent link to="/news" buttonType="primary">
+                  Notícias
+                </ButtonComponent>
                 <ButtonComponent link to="/login" buttonType="primary">
                   Entrar
                 </ButtonComponent>
