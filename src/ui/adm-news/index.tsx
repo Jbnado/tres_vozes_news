@@ -48,7 +48,8 @@ export default function AdminNewsPage() {
   );
 
   const { mutate: updateANews, isLoading: isUpdatingLoading } = useMutation(
-    (newNews: NewsCreateModel) => updateNews(newsToEdit as string, newNews),
+    (newsToUpdate: NewsCreateModel) =>
+      updateNews(newsToEdit as string, newsToUpdate),
     {
       onSuccess: () => {
         setIsModalVisible(false);

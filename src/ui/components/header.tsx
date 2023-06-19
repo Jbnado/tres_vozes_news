@@ -37,6 +37,9 @@ export default function HeaderComponent() {
                     <ButtonComponent link to="/topics" buttonType="secondary">
                       Tópicos
                     </ButtonComponent>
+                    <ButtonComponent link to="/users" buttonType="primary">
+                      Usuários
+                    </ButtonComponent>
                   </>
                 )}
                 <ButtonComponent link to="/news" buttonType="primary">
