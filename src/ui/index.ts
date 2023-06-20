@@ -8,4 +8,5 @@ export { default as AboutProjectPage } from './about-project';
 export { default as AboutCreatorsPage } from './about-creators';
 export { default as AdminNewsPage } from './adm-news';
 export { default as TopicPage } from './topic';
+export { default as UsersPage } from './users';
 export { default as NotFoundPage } from './404';

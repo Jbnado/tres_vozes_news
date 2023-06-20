@@ -14,6 +14,7 @@ import {
   SignIn,
   SignUp,
   TopicPage,
+  UsersPage,
 } from "./ui";
 import "./index.css";
 import { HeaderComponent } from "./ui/components";
@@ -45,6 +46,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
             <Route element={<PrivateRoute />}>
               <Route path="topics" element={<TopicPage />} />
               <Route path="adm-news" element={<AdminNewsPage />} />
+              <Route path="users" element={<UsersPage />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
